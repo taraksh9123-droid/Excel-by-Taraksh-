@@ -32,3 +32,214 @@ body.dark{--bg:#202124;--panel:#252629;--header:#303134;--line:#45464a;--text:#f
 .grid-corner,.column-headers,.row-headers{background:#f1f4f6}.header-cell,.row-header{font-size:12px}.header-cell:hover,.row-header:hover,.grid-corner:hover{background:#dceee2;color:var(--accent-dark)}
 .cell{font-size:13px}.cell.selected{outline-color:var(--focus);box-shadow:inset 0 0 0 1px #1683d855,0 0 0 1px #1683d822}.cell.range{background:#e8f3ff}
 footer{box-shadow:0 -1px 3px #172b1b0d}.sheet-tabs{background:#fbfcfd}.sheet-tabs>button:hover{background:#e8f3ec;color:var(--accent)}.sheet-tab.active{border-top-color:var(--accent);color:var(--accent-dark);background:#eef7f1;border-radius:4px 4px 0 0}.statusbar{background:#f7f9fa}
+
+/* Excel Flow visual shell */
+:root{
+  --accent:#27c7e8;
+  --accent-dark:#071c36;
+  --accent-soft:#123e65;
+  --focus:#54d9ff;
+  --bg:#08182c;
+  --panel:#0d2744;
+  --header:#102f50;
+  --line:#1c4a70;
+  --text:#d9f4ff;
+  --muted:#86a8c6;
+  --selection:#164c72;
+  --row-h:22px;
+  --col-w:64px;
+}
+body.dark{
+  --bg:#08182c;
+  --panel:#0d2744;
+  --header:#102f50;
+  --line:#1c4a70;
+  --text:#d9f4ff;
+  --muted:#86a8c6;
+  --selection:#164c72;
+}
+body{
+  background:radial-gradient(circle at 75% 22%,#202762 0,#0d2340 38%,#06162b 100%);
+  color:var(--text);
+  font-family:"Segoe UI",Arial,sans-serif;
+}
+.titlebar{
+  height:54px;
+  padding:0 10px;
+  gap:10px;
+  background:linear-gradient(110deg,#081b35,#123f68 55%,#332b75);
+  border-bottom:1px solid #2bd5f0;
+  box-shadow:0 2px 14px #0008;
+}
+.brand{min-width:330px;gap:12px}
+.brand-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(145deg,#20d7eb,#7350f4);
+  border:1px solid #54e6ff;
+  box-shadow:0 0 15px #1bcbe977;
+}
+.brand-mark svg{width:30px;height:30px}
+.brand strong{font-size:16px;letter-spacing:.3px}
+.brand span:last-child{
+  display:inline-block;
+  padding-left:10px;
+  border-left:1px solid #457493;
+  color:#77aacb;
+  font-size:11px;
+}
+.workbook-title{
+  display:block;
+  width:280px;
+  padding:10px 14px;
+  border-radius:9px;
+  background:#06172caa;
+  color:#e7f8ff;
+  font-weight:600;
+  cursor:text;
+  outline:none;
+}
+.workbook-title:focus{border:1px solid #45c9ed;box-shadow:0 0 0 2px #45c9ed33}
+.command-search{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  width:min(340px,30vw);
+  padding:7px 12px;
+  border:1px solid #27557e;
+  border-radius:8px;
+  background:#061a32aa;
+  color:#7aa6c8;
+}
+.command-search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}
+.command-search input::placeholder{color:#7192b1}
+.command-search,.title-actions #themeBtn,.title-actions button[title="Help"]{display:none}
+.title-actions button{
+  color:#c8efff;
+  border:1px solid #31547c;
+  border-radius:8px;
+  padding:7px 10px;
+}
+.title-actions button:hover{background:#ffffff18}
+.title-actions #themeBtn,.title-actions button[title="Help"],.avatar{display:block}
+.avatar{border-radius:50%!important;width:30px;height:30px;padding:0!important;background:#493c9c}
+.ai-button{display:inline-flex!important;align-items:center;justify-content:center;white-space:nowrap;min-width:58px;background:linear-gradient(135deg,#117ea8,#693bc3)!important;border-color:#5b9bdf!important}
+.tabs{
+  height:42px;
+  justify-content:flex-start;
+  padding-left:420px;
+  gap:4px;
+  background:linear-gradient(110deg,#0b2747,#1b315f 60%,#312a70);
+  border-bottom:1px solid #2d6790;
+}
+.tabs button{
+  min-width:76px;
+  padding:0 15px;
+  color:#a9c8e8!important;
+  border:1px solid transparent;
+  border-radius:8px 8px 0 0;
+}
+.tabs button.active{
+  color:#fff!important;
+  background:linear-gradient(135deg,#1aa8de,#7150e6);
+  border-color:#4bcdf2;
+  box-shadow:0 0 13px #2ebde466;
+}
+.ribbon{
+  height:96px;
+  padding:7px 9px 3px;
+  gap:7px;
+  background:linear-gradient(180deg,#0e2b4a,#0b223d);
+  border-bottom:1px solid #23577d;
+}
+.group{
+  padding:0 8px 14px 0;
+  border-right-color:#214d70;
+  border-top:0;
+}
+.group-title{color:#78a9c7}
+.ribbon button{
+  height:52px;
+  color:#bfe7fa;
+  border:1px solid transparent;
+  border-radius:7px;
+}
+.ribbon button:hover{background:#164466;transform:none;color:#fff}
+.ribbon button b{font-size:20px;color:#75d8f6}
+.ribbon button span{font-size:10px}
+.ribbon select{background:#102f50;border-color:#2b5b80;color:var(--text)}
+.formula-bar{
+  height:40px;
+  background:#0b223c;
+  border-bottom:1px solid #1d4b6f;
+  box-shadow:none;
+  padding-left:0;
+}
+.name-box,.formula-bar #formulaInput{
+  background:#071b32;
+  border-color:#28587e;
+  color:var(--text);
+}
+.name-box{width:46px}
+.formula-bar button{color:#7ed7f2}
+.formula-bar button:hover{background:#164466;color:#fff}
+.sheet-area,.viewport{background:#fff}
+.grid-corner,.column-headers,.row-headers{background:#111;color:#d9d9d9}
+.header-cell,.row-header{color:#d9d9d9;border-color:#4b4b4b}
+.header-cell:hover,.row-header:hover,.grid-corner:hover{background:#2b2b2b;color:#fff}
+.header-cell.active-header,.row-header.active-header{background:#7c3aed;color:#fff;border-color:#7c3aed}
+.grid-canvas{
+  background-color:#fff;
+  background-image:none;
+}
+.cell{color:#1f2937;text-align:left;vertical-align:middle;border:1px solid #d9d9d9;cursor:cell}
+.cell:hover{cursor:cell}
+.cell.selected{background:rgba(124,58,237,.08);color:#102a43;outline:2px solid #7c3aed;outline-offset:-2px;border-color:#7c3aed;box-shadow:0 0 0 1px #fff;backdrop-filter:blur(1px);z-index:4}
+.cell.selected.has-border{box-shadow:0 0 0 1px #fff;border-color:#7c3aed}
+.cell.range{background:rgba(124,58,237,.16);color:#1f2937;backdrop-filter:blur(1px)}
+.cell input{background:#fff;color:#1f2937}
+.header-cell,.row-header{position:absolute}
+.header-cell,.row-header{user-select:none;touch-action:none}
+.resize-handle{position:absolute;z-index:5;display:block}
+.column-resize-handle{top:0;right:-4px;width:9px;height:100%;cursor:col-resize}
+.row-resize-handle{left:0;bottom:-4px;width:100%;height:9px;cursor:row-resize}
+.header-cell:hover{cursor:col-resize}
+.row-header:hover{cursor:row-resize}
+footer{background:#0b223c;border-top-color:#1e4d70}
+.sheet-tabs{background:#0b223c;border-bottom-color:#1e4d70}
+.sheet-tabs>button:hover{background:#164466;color:#fff}
+.sheet-tab{color:#9bc5df;border-right-color:#1e4d70}
+.sheet-tab.active{background:#123b5c;color:#70ddf7;border-top-color:#35d5f3}
+.statusbar{background:#081b32;color:#7fa7c4}
+.statusbar .credit{color:#7fa7c4;font-size:11px;white-space:nowrap}
+.statusbar .credit a{color:#65d8f4;text-decoration:none}
+.statusbar .credit a:hover{text-decoration:underline}
+.ai-panel,.design-panel,.color-palette,.dialog{
+  background:#0d2947;
+  border-color:#2c6288;
+  color:var(--text);
+}
+.ai-panel-header{background:linear-gradient(110deg,#126c91,#553fa4)}
+.ai-messages{background:#091c33}
+.ai-progress{display:flex;align-items:center;gap:8px;padding:8px 12px;color:#8fdcf3;background:#0d2b48;border-bottom:1px solid #245a7c;font-size:12px}
+.ai-spinner{width:12px;height:12px;border:2px solid #4d7693;border-top-color:#55dcff;border-radius:50%;animation:ai-spin .8s linear infinite}
+@keyframes ai-spin{to{transform:rotate(360deg)}}
+.ai-context{color:#83b1cc}
+.ai-message.assistant{background:#113655;border-color:#245a7c}
+.ai-message.user{background:#164d72}
+.ai-compose,.ai-setup input{border-color:#25587e}
+.ai-setup input,.ai-compose textarea{background:#071b32;color:var(--text)}
+.ai-compose button,.ai-setup>button{background:linear-gradient(135deg,#17a9d7,#6649d3)}
+.design-header{background:#123555;border-bottom-color:#245a7d}
+.design-section{border-bottom-color:#245a7d}
+.design-color-row button,.design-format-row button,.design-border-row button,.design-presets button,.color-palette>button{background:#102f4e;border-color:#2b5b80;color:var(--text)}
+.toast{background:#164f73;color:#e8fbff;border:1px solid #43cbe8}
+.seo-content{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:1100px){
+  .tabs{padding-left:0}
+  .brand{min-width:230px}
+  .workbook-title{display:none}
+}
+.command-search,.title-actions #themeBtn,.title-actions button[title="Help"]{display:none!important}
+body{display:flex;flex-direction:column}
+.titlebar,.tabs,.ribbon,.formula-bar,footer{flex:0 0 auto}
+.sheet-area{height:auto!important;min-height:0;flex:1 1 auto}

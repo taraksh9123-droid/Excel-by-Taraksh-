@@ -3,19 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Excel Web</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23fff'/%3E%3Cpath d='M7 6h9c6 0 10 4 10 10s-4 10-10 10H7z' fill='%23217346'/%3E%3Cpath d='M13 11l3 5-3 5h3l2-3 2 3h3l-3.5-5L23 11h-3l-2 3-2-3z' fill='%23fff'/%3E%3C/svg%3E">
+  <meta name="description" content="Excel Flow is a fast, browser-based spreadsheet with formulas, data tools, charts, cell resizing, and an AI workbook assistant.">
+  <meta name="author" content="Taraksh Choudhary">
+  <meta name="theme-color" content="#071c36">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Excel Flow - Spreadsheet with AI">
+  <meta property="og:description" content="Create, edit, analyze, and visualize spreadsheets in your browser with Excel Flow and its AI workbook assistant.">
+  <meta property="og:site_name" content="Excel Flow">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Excel Flow - Spreadsheet with AI">
+  <meta name="twitter:description" content="A browser-based spreadsheet for formulas, data analysis, charts, and AI-assisted workbook editing.">
+  <title>Excel Flow - Spreadsheet with AI</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Excel Flow",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "description": "A browser-based spreadsheet for data entry, formulas, data analysis, charts, and AI-assisted workbook editing.",
+    "author": {
+      "@type": "Person",
+      "name": "Taraksh Choudhary",
+      "description": "A 13-year-old Indian developer who created Excel Flow.",
+      "nationality": "Indian",
+      "sameAs": "https://github.com/taraksh9123-droid"
+    },
+    "featureList": [
+      "Spreadsheet data entry and cell resizing",
+      "Formulas and functions",
+      "Sorting and data tools",
+      "Charts and visualization",
+      "AI-assisted workbook editing"
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23fff'/%3E%3Cpath d='M7 6h9c6 0 10 4 10 10s-4 10-10 10H7z' fill='%237c3aed'/%3E%3Cpath d='M13 11l3 5-3 5h3l2-3 2 3h3l-3.5-5L23 11h-3l-2 3-2-3z' fill='%23fff'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="titlebar">
-    <div class="brand"><span class="brand-mark" aria-label="Excel logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 3h14l6 6v20H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" fill="#fff"/><path d="M21 3v7h6" fill="#d9f0e2"/><path d="m9 12 4 5-4 5h4l2-3 2 3h4l-4-5 4-5h-4l-2 3-2-3Z" fill="#217346"/></svg></span><strong>Excel Web</strong><span id="saveStatus">Saved</span></div>
-    <div class="workbook-title" id="workbookTitle">Book1</div>
+    <div class="brand"><span class="brand-mark" aria-label="Excel Flow logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 3h14l6 6v20H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" fill="#fff"/><path d="M21 3v7h6" fill="#eadcff"/><path d="m9 12 4 5-4 5h4l-4-5 4-5h-4l-2 3-2-3Z" fill="#7c3aed"/></svg></span><strong>Excel Flow</strong><span id="saveStatus">Saved</span></div>
+    <div class="workbook-title" id="workbookTitle" contenteditable="true" role="textbox" aria-label="Workbook name" spellcheck="false">Book1</div>
     <label class="command-search"><span>⌕</span><input id="commandSearch" placeholder="Search commands, tools and features"></label>
-    <div class="title-actions"><button title="Toggle theme" id="themeBtn">◐</button><button title="Help">?</button><button title="Open Excel Web AI" id="aiBtn" class="ai-button">✦</button><button class="avatar">T</button></div>
+    <div class="title-actions"><button title="Toggle theme" id="themeBtn">◐</button><button title="Help">?</button><button title="Open Excel Flow AI" id="aiBtn" class="ai-button">✦ AI</button><button class="avatar">T</button></div>
   </header>
   <nav class="tabs" id="tabs">
-    <button data-tab="File">File</button><button class="active" data-tab="Home">Home</button><button data-tab="Insert">Insert</button><button data-tab="Page Layout">Page Layout</button><button data-tab="Formulas">Formulas</button>
+    <button data-tab="File">File</button><button class="active" data-tab="Home">Home</button><button data-tab="Insert">Insert</button><button data-tab="Page Layout">Page Layout</button><button data-tab="Formulas">Formulas</button><button data-tab="Data">Data</button><button data-tab="View">View</button>
   </nav>
   <section class="ribbon" id="ribbon"></section>
   <section class="formula-bar">
@@ -32,8 +66,21 @@
   </main>
   <footer>
     <div class="sheet-tabs"><button id="sheetPrev">‹</button><button id="sheetNext">›</button><div id="sheetList"></div><button id="addSheet" title="Add worksheet">＋</button></div>
-    <div class="statusbar"><span id="statusText">Ready</span><span id="selectionStats"></span><span class="spacer"></span><button>▦</button><button>▥</button><label>− <input id="zoom" type="range" min="70" max="140" value="100"> ＋ <b id="zoomValue">100%</b></label></div>
+    <div class="statusbar"><span id="statusText">Ready</span><span id="selectionStats"></span><span class="credit">Made by Taraksh Choudhary · <a href="https://github.com/taraksh9123-droid" target="_blank" rel="noopener">GitHub</a></span><span class="spacer"></span><button>▦</button><button>▥</button><label>− <input id="zoom" type="range" min="70" max="140" value="100"> ＋ <b id="zoomValue">100%</b></label></div>
   </footer>
+  <section class="seo-content" aria-labelledby="about-excel-flow">
+    <h1 id="about-excel-flow">Excel Flow: spreadsheet with AI assistance</h1>
+    <p>Excel Flow is a browser-based spreadsheet for entering data, writing formulas, analyzing tables, and creating charts. Adjust cell sizes, format ranges, and use the workbook assistant to make supported edits faster.</p>
+    <h2>About the creator</h2>
+    <p>Excel Flow was created by Taraksh Choudhary, a 13-year-old Indian developer interested in spreadsheets, automation, and AI-powered tools. Visit <a href="https://github.com/taraksh9123-droid" target="_blank" rel="noopener">Taraksh Choudhary on GitHub</a>.</p>
+    <h2>Spreadsheet features</h2>
+    <ul>
+      <li>Enter and format workbook data with adjustable rows and columns.</li>
+      <li>Use formulas and functions for everyday calculations.</li>
+      <li>Sort data, work with ranges, and create visual charts.</li>
+      <li>Ask the Excel Flow AI assistant for workbook-aware help.</li>
+    </ul>
+  </section>
   <input type="file" id="fileInput" accept=".xlsx,.xls,.csv,.tsv,.json" hidden>
   <input type="file" id="imageInput" accept="image/*" hidden>
   <input type="color" id="fontColorPicker" value="#242424" hidden>
@@ -47,9 +94,9 @@
     <div class="design-section"><strong>Text</strong><div class="design-format-row"><button id="designBold" type="button"><b>B</b> Bold</button><button id="designItalic" type="button"><i>I</i> Italic</button><button id="designUnderline" type="button"><u>U</u> Underline</button></div></div>
   </aside>
   <div class="color-palette" id="colorPalette" hidden><strong id="paletteTitle">Choose color</strong><div id="paletteSwatches"></div><button id="customColorButton" type="button">Custom color</button></div>
-  <aside class="ai-panel" id="aiPanel" hidden aria-label="Excel Web AI">
-    <div class="ai-panel-header" id="aiDragHandle"><div><strong>Excel Web AI</strong><small id="aiConnectionLabel" hidden></small></div><div class="ai-panel-actions"><button id="aiSettings" title="Gemini settings">⚙</button><button id="aiMinimize" title="Minimize">−</button><button id="aiClose" title="Close">×</button></div></div>
-    <div class="ai-chat" id="aiChat"><div class="ai-messages" id="aiMessages"><div class="ai-message assistant">Hi! I can help you analyze and edit this workbook.</div></div><form class="ai-compose" id="aiForm"><textarea id="aiInput" rows="2" placeholder="Ask Excel Web AI..." aria-label="Message"></textarea><button type="submit" title="Send message">➤</button></form><div class="ai-context"><span id="aiContextStatus" hidden></span><button id="aiDisconnect" hidden>Disconnect</button></div></div>
+  <aside class="ai-panel" id="aiPanel" hidden aria-label="Excel Flow AI">
+    <div class="ai-panel-header" id="aiDragHandle"><div><strong>Excel Flow AI</strong><small id="aiConnectionLabel" hidden></small></div><div class="ai-panel-actions"><button id="aiSettings" title="Gemini settings">⚙</button><button id="aiMinimize" title="Minimize">−</button><button id="aiClose" title="Close">×</button></div></div>
+    <div class="ai-chat" id="aiChat"><div class="ai-progress" id="aiProgress" hidden><span class="ai-spinner" aria-hidden="true"></span><span id="aiProgressText">Thinking...</span></div><div class="ai-messages" id="aiMessages"><div class="ai-message assistant">Hi! I can help you analyze and edit this workbook.</div></div><form class="ai-compose" id="aiForm"><textarea id="aiInput" rows="2" placeholder="Ask Excel Flow AI..." aria-label="Message"></textarea><button type="submit" title="Send message">➤</button></form><div class="ai-context"><span id="aiContextStatus"></span><button id="aiDisconnect" hidden>Disconnect</button></div></div>
     <div class="ai-setup" id="aiSetup" hidden><div class="ai-settings-title"><strong>Gemini settings</strong><button id="aiSettingsClose" type="button" title="Close settings">×</button></div><p>Connect Gemini to enable workbook-aware answers and actions. Your key stays in memory and is cleared when this page closes.</p><input id="geminiKey" type="password" placeholder="Paste your Gemini API key" autocomplete="off"><button id="aiConnect" type="button">Connect Gemini</button><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a Gemini API key</a></div>
   </aside>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
