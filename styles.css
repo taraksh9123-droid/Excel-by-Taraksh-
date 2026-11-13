@@ -243,3 +243,18 @@ footer{background:#0b223c;border-top-color:#1e4d70}
 body{display:flex;flex-direction:column}
 .titlebar,.tabs,.ribbon,.formula-bar,footer{flex:0 0 auto}
 .sheet-area{height:auto!important;min-height:0;flex:1 1 auto}
+
+/* Final polish */
+:root{--accent:#2bd3ef;--accent-dark:#071b35;--accent-soft:#173b63;--focus:#62e8ff}
+body{letter-spacing:.01em}
+.titlebar{background:linear-gradient(115deg,#06162e 0%,#102d50 52%,#3b277a 100%);border-bottom-color:#2bd3ef;box-shadow:0 3px 18px #020b18aa}
+.brand{min-width:290px;gap:11px}.brand-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#21d9ed,#7654f6);border:1px solid #73efff;box-shadow:0 0 20px #2bd3ef66}.brand-mark svg{width:32px;height:32px}.brand strong{font-size:17px;font-weight:700}.brand span:last-child{color:#8ed8eb}
+.ai-button{background:linear-gradient(135deg,#12aaca,#7250e8)!important;border-color:#76e7ff!important;box-shadow:0 0 13px #2bd3ef33}
+.tabs{background:linear-gradient(115deg,#0b2747,#1d315f 58%,#382b78);border-bottom-color:#2c6e96}
+.tabs button{border-radius:9px 9px 0 0}.tabs button.active{background:linear-gradient(135deg,#21bedc,#7052e5);border-color:#69e8ff;box-shadow:0 0 16px #36cfee55}
+.ribbon{background:linear-gradient(180deg,#102f50,#0a203b);border-bottom-color:#285c80;box-shadow:0 4px 14px #020b1833}.group{border-right-color:#285675}.group-title{color:#8bb9d4}.ribbon button{color:#d1f2ff;border-color:transparent}.ribbon button b{color:#7ee9ff}.ribbon button:hover{background:#1b4a6b;color:#fff;box-shadow:0 0 10px #24cce633}
+.formula-bar{background:#0b223d;border-bottom-color:#245a7c}.name-box,.formula-bar #formulaInput{background:#071a31;border-color:#2b5b80;border-radius:7px}.formula-bar button{border-radius:7px}
+.sheet-area,.viewport{background:#f8fbfd}.grid-canvas{background-color:#fff;background-image:linear-gradient(to right,#cbd8e1 1px,transparent 1px),linear-gradient(to bottom,#cbd8e1 1px,transparent 1px);background-size:var(--col-w) var(--row-h)}.cell{border-color:#d1dde5;color:#1f2937}.cell.selected{outline-color:#7c5cff;background:#eef0ff}.cell.range{background:#e8eaff}.grid-corner,.column-headers,.row-headers{background:#eaf1f5;color:#1e3550}.header-cell,.row-header{color:#1e3550;border-color:#cbd8e1}.header-cell.active-header,.row-header.active-header{color:#fff}
+.ai-panel,.design-panel,.color-palette{border-radius:14px;box-shadow:0 18px 45px #020b1888}.ai-panel-header{background:linear-gradient(115deg,#117b9b,#6045b5)}.ai-message{border-radius:12px}.ai-message.user{background:linear-gradient(135deg,#194f75,#3a377c)}.ai-compose button,.ai-setup>button{border-radius:9px;box-shadow:0 0 12px #2bd3ef33}
+footer{background:#081b35}.sheet-tabs{background:#0b223d}.statusbar{background:#071a31}
+@media (max-width:700px){.brand{min-width:0}.brand strong{font-size:14px}.brand span:last-child{display:none}.titlebar{height:50px}.tabs{overflow-x:auto;justify-content:flex-start}.tabs button{min-width:auto;padding:0 11px}.ribbon{height:82px}.workbook-title{display:none}.ai-panel{right:8px;top:56px;width:calc(100vw - 16px)}}

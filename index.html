@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Excel Flow is a fast, browser-based spreadsheet with formulas, data tools, charts, cell resizing, and an AI workbook assistant.">
   <meta name="author" content="Taraksh Choudhary">
-  <meta name="theme-color" content="#071c36">
+  <meta name="theme-color" content="#081b35">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Excel Flow - Spreadsheet with AI">
+  <meta property="og:title" content="Excel Flow | AI Spreadsheet">
   <meta property="og:description" content="Create, edit, analyze, and visualize spreadsheets in your browser with Excel Flow and its AI workbook assistant.">
   <meta property="og:site_name" content="Excel Flow">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Excel Flow - Spreadsheet with AI">
+  <meta name="twitter:title" content="Excel Flow | AI Spreadsheet">
   <meta name="twitter:description" content="A browser-based spreadsheet for formulas, data analysis, charts, and AI-assisted workbook editing.">
-  <title>Excel Flow - Spreadsheet with AI</title>
+  <title>Excel Flow | AI Spreadsheet</title>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,12 +38,12 @@
     ]
   }
   </script>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23fff'/%3E%3Cpath d='M7 6h9c6 0 10 4 10 10s-4 10-10 10H7z' fill='%237c3aed'/%3E%3Cpath d='M13 11l3 5-3 5h3l2-3 2 3h3l-3.5-5L23 11h-3l-2 3-2-3z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23081b35'/%3E%3Cpath d='M16 10h22l10 10v34H16a6 6 0 0 1-6-6V16a6 6 0 0 1 6-6Z' fill='%2327c7e8'/%3E%3Cpath d='M38 10v12h12' fill='%237c5cff'/%3E%3Cpath d='m22 27 7 8-7 8h7l4-5 4 5h7l-7-8 7-8h-7l-4 5-4-5z' fill='%23fff'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="titlebar">
-    <div class="brand"><span class="brand-mark" aria-label="Excel Flow logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 3h14l6 6v20H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" fill="#fff"/><path d="M21 3v7h6" fill="#eadcff"/><path d="m9 12 4 5-4 5h4l-4-5 4-5h-4l-2 3-2-3Z" fill="#7c3aed"/></svg></span><strong>Excel Flow</strong><span id="saveStatus">Saved</span></div>
+    <div class="brand"><span class="brand-mark" aria-label="Excel Flow logo"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 8h22l10 10v38H16a6 6 0 0 1-6-6V14a6 6 0 0 1 6-6Z" fill="#27c7e8"/><path d="M38 8v12h12" fill="#7c5cff"/><path d="m21 27 7 8-7 8h7l4-5 4 5h7l-7-8 7-8h-7l-4 5-4-5z" fill="#fff"/></svg></span><strong>Excel Flow</strong><span id="saveStatus">Saved</span></div>
     <div class="workbook-title" id="workbookTitle" contenteditable="true" role="textbox" aria-label="Workbook name" spellcheck="false">Book1</div>
     <label class="command-search"><span>⌕</span><input id="commandSearch" placeholder="Search commands, tools and features"></label>
     <div class="title-actions"><button title="Toggle theme" id="themeBtn">◐</button><button title="Help">?</button><button title="Open Excel Flow AI" id="aiBtn" class="ai-button">✦ AI</button><button class="avatar">T</button></div>
@@ -95,9 +95,9 @@
   </aside>
   <div class="color-palette" id="colorPalette" hidden><strong id="paletteTitle">Choose color</strong><div id="paletteSwatches"></div><button id="customColorButton" type="button">Custom color</button></div>
   <aside class="ai-panel" id="aiPanel" hidden aria-label="Excel Flow AI">
-    <div class="ai-panel-header" id="aiDragHandle"><div><strong>Excel Flow AI</strong><small id="aiConnectionLabel" hidden></small></div><div class="ai-panel-actions"><button id="aiSettings" title="Gemini settings">⚙</button><button id="aiMinimize" title="Minimize">−</button><button id="aiClose" title="Close">×</button></div></div>
+    <div class="ai-panel-header" id="aiDragHandle"><div><strong>Excel Flow AI</strong><small id="aiConnectionLabel" hidden></small></div><div class="ai-panel-actions"><button id="aiSettings" title="Groq settings">⚙</button><button id="aiMinimize" title="Minimize">−</button><button id="aiClose" title="Close">×</button></div></div>
     <div class="ai-chat" id="aiChat"><div class="ai-progress" id="aiProgress" hidden><span class="ai-spinner" aria-hidden="true"></span><span id="aiProgressText">Thinking...</span></div><div class="ai-messages" id="aiMessages"><div class="ai-message assistant">Hi! I can help you analyze and edit this workbook.</div></div><form class="ai-compose" id="aiForm"><textarea id="aiInput" rows="2" placeholder="Ask Excel Flow AI..." aria-label="Message"></textarea><button type="submit" title="Send message">➤</button></form><div class="ai-context"><span id="aiContextStatus"></span><button id="aiDisconnect" hidden>Disconnect</button></div></div>
-    <div class="ai-setup" id="aiSetup" hidden><div class="ai-settings-title"><strong>Gemini settings</strong><button id="aiSettingsClose" type="button" title="Close settings">×</button></div><p>Connect Gemini to enable workbook-aware answers and actions. Your key stays in memory and is cleared when this page closes.</p><input id="geminiKey" type="password" placeholder="Paste your Gemini API key" autocomplete="off"><button id="aiConnect" type="button">Connect Gemini</button><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a Gemini API key</a></div>
+    <div class="ai-setup" id="aiSetup" hidden><div class="ai-settings-title"><strong>Groq settings</strong><button id="aiSettingsClose" type="button" title="Close settings">×</button></div><p>Your key is masked, cannot be copied from this field, and is saved only for this browser tab. Enter a new key below to replace it.</p><input id="groqKey" type="password" placeholder="Paste a Groq API key to connect" autocomplete="off" spellcheck="false"><button id="aiConnect" type="button">Connect Groq</button><a href="https://console.groq.com/keys" target="_blank" rel="noopener">Get a Groq API key</a></div>
   </aside>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="app.js"></script>

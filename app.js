@@ -5,7 +5,7 @@ document.body.classList.toggle("dark",state.theme==="dark");
 const key=(r,c)=>`${r}:${c}`, sheet=()=>state.sheets[state.sheet], colName=n=>{let s="";for(n++;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s}, addr=(r,c)=>`${colName(c)}${r+1}`;
 function parseAddr(s){const m=String(s).toUpperCase().match(/^([A-Z]+)(\d+)$/);if(!m)return null;let c=0;for(const ch of m[1])c=c*26+ch.charCodeAt(0)-64;return {row:+m[2]-1,col:c-1}}
 function valueAt(r,c,seen=new Set()){const cell=sheet().cells[key(r,c)];if(!cell)return "";if(typeof cell.raw!=="string"||!cell.raw.startsWith("="))return cell.raw;const id=key(r,c);if(seen.has(id))return "#REF!";seen.add(id);return calc(cell.raw.slice(1),seen)}
-function calc(expr,seen){try{let e=expr.replace(/'[^']+'!/g,"").replace(/([A-Z]{1,3}\d+):([A-Z]{1,3}\d+)/g,(_,a,b)=>{const x=parseAddr(a),y=parseAddr(b),v=[];for(let r=x.row;r<=y.row;r++)for(let c=x.col;c<=y.col;c++)v.push(valueAt(r,c,seen));return JSON.stringify(v)}).replace(/\b([A-Z]{1,3})(\d+)\b/g,(_,l,n)=>JSON.stringify(valueAt(parseInt(n)-1,parseAddr(l+"1").col,seen)));const fn={SUM:a=>flat(a).reduce((s,v)=>s+num(v),0),AVERAGE:a=>{const v=flat(a).map(num).filter(Number.isFinite);return v.length?v.reduce((s,x)=>s+x,0)/v.length:0},MIN:a=>Math.min(...flat(a).map(num)),MAX:a=>Math.max(...flat(a).map(num)),COUNT:a=>flat(a).filter(v=>v!==""&&!isNaN(v)).length,COUNTA:a=>flat(a).filter(v=>v!=="").length,PRODUCT:a=>flat(a).reduce((s,v)=>s*num(v),1),ABS:Math.abs,ROUND:(n,d=0)=>Number(Number(n).toFixed(d)),SQRT:Math.sqrt,POWER:Math.pow,MOD:(a,b)=>a%b,AND:(...a)=>a.every(Boolean),OR:(...a)=>a.some(Boolean),NOT:a=>!a,IF:(a,b,c="")=>a?b:c,CONCAT:(...a)=>flat(a).join(""),CONCATENATE:(...a)=>flat(a).join(""),LEFT:(a,n=1)=>String(a).slice(0,n),RIGHT:(a,n=1)=>String(a).slice(-n),LEN:a=>String(a).length,UPPER:a=>String(a).toUpperCase(),LOWER:a=>String(a).toLowerCase(),TRIM:a=>String(a).trim(),RAND:()=>Math.random(),RANDBETWEEN:(a,b)=>Math.floor(Math.random()*(b-a+1))+a};e=e.replace(/\b([A-Z]+)\s*\(([^()]*)\)/gi,(_,name,args)=>`__fn.${name.toUpperCase()}(${args||""})`);e=e.replace(/<>/g,"!=").replace(/(?<![<>=])=(?!=)/g,"==");return Function("__fn","return "+e)(fn)}catch{return "#VALUE!"}}
+function calc(expr,seen){try{let e=expr.replace(/\$/g,"").replace(/'[^']+'!/g,"").replace(/([A-Z]{1,3}\d+):([A-Z]{1,3}\d+)/g,(_,a,b)=>{const x=parseAddr(a),y=parseAddr(b),v=[];for(let r=x.row;r<=y.row;r++)for(let c=x.col;c<=y.col;c++)v.push(valueAt(r,c,seen));return JSON.stringify(v)}).replace(/\b([A-Z]{1,3})(\d+)\b/g,(_,l,n)=>JSON.stringify(valueAt(parseInt(n)-1,parseAddr(l+"1").col,seen)));const fn={SUM:a=>flat(a).reduce((s,v)=>s+num(v),0),AVERAGE:a=>{const v=flat(a).map(num).filter(Number.isFinite);return v.length?v.reduce((s,x)=>s+x,0)/v.length:0},MIN:a=>Math.min(...flat(a).map(num)),MAX:a=>Math.max(...flat(a).map(num)),COUNT:a=>flat(a).filter(v=>v!==""&&!isNaN(v)).length,COUNTA:a=>flat(a).filter(v=>v!=="").length,PRODUCT:a=>flat(a).reduce((s,v)=>s*num(v),1),ABS:Math.abs,ROUND:(n,d=0)=>Number(Number(n).toFixed(d)),SQRT:Math.sqrt,POWER:Math.pow,MOD:(a,b)=>a%b,AND:(...a)=>a.every(Boolean),OR:(...a)=>a.some(Boolean),NOT:a=>!a,IF:(a,b,c="")=>a?b:c,CONCAT:(...a)=>flat(a).join(""),CONCATENATE:(...a)=>flat(a).join(""),LEFT:(a,n=1)=>String(a).slice(0,n),RIGHT:(a,n=1)=>String(a).slice(-n),LEN:a=>String(a).length,UPPER:a=>String(a).toUpperCase(),LOWER:a=>String(a).toLowerCase(),TRIM:a=>String(a).trim(),RAND:()=>Math.random(),RANDBETWEEN:(a,b)=>Math.floor(Math.random()*(b-a+1))+a};e=e.replace(/\b([A-Z]+)\s*\(([^()]*)\)/gi,(_,name,args)=>`__fn.${name.toUpperCase()}(${args||""})`);e=e.replace(/<>/g,"!=").replace(/(?<![<>=])=(?!=)/g,"==");return Function("__fn","return "+e)(fn)}catch{return "#VALUE!"}}
 function flat(v){return (Array.isArray(v)?v.flat(Infinity):[v]).map(x=>typeof x==="string"&&x.startsWith('"')?x.slice(1,-1):x)}function num(v){const n=Number(v);return Number.isFinite(n)?n:0}
 function setCell(r,c,raw){const k=key(r,c),old=sheet().cells[k];if(raw===""){delete sheet().cells[k]}else sheet().cells[k]={...(sheet().cells[k]||{}),raw:String(raw)};state.undo.push({k,old,now:sheet().cells[k]});state.redo=[];state.dirty=true;$("saveStatus").textContent="Unsaved changes";localStorage.setItem("excel-workbook",JSON.stringify(state.sheets))}
 function visible(){const vp=$("viewport"),firstR=Math.max(0,Math.floor(vp.scrollTop/ROW_H)-2),firstC=Math.max(0,Math.floor(vp.scrollLeft/COL_W)-2),lastR=Math.min(ROWS-1,firstR+Math.ceil(vp.clientHeight/ROW_H)+5),lastC=Math.min(COLS-1,firstC+Math.ceil(vp.clientWidth/COL_W)+5);return {firstR,lastR,firstC,lastC}}
@@ -93,8 +93,8 @@ function buildRibbon(tab){
 }
 buildRibbon("Home");render();
 
-let geminiApiKey="";
-const GEMINI_MODELS=["gemini-3.8-flash","gemini-2.5-flash"];
+let groqApiKey=sessionStorage.getItem("excel-groq-api-key")||"";
+const GROQ_MODELS=["llama-3.3-70b-versatile","openai/gpt-oss-120b"];
 const aiHistory=[];
 function workbookContext(){
   const sheets=state.sheets.map(s=>({name:s.name,cells:Object.entries(s.cells).slice(0,500).map(([address,cell])=>({address,raw:cell.raw||"",value:valueAt(...address.split(":").map(Number))}))}));
@@ -158,33 +158,33 @@ function localFormulaFallback(prompt){
 function localRequestFallback(prompt){
   return localFormulaFallback(prompt);
 }
-async function askGemini(prompt){
-  if(!geminiApiKey){
+async function askGroq(prompt){
+  if(!groqApiKey){
     aiMessage(prompt,"user");
     const local=localRequestFallback(prompt);
     if(local?.action){aiProgress("Applying workbook changes...");aiAction(local.action);aiMessage(local.message||"Workbook updated.");$("aiContextStatus").textContent="Workbook updated";aiProgress("",false)}
-    else{aiMessage("Connect Gemini to use workbook-wide agent actions. Basic formula requests are available locally.","error");$("aiContextStatus").textContent="Gemini not connected"}
+    else{aiMessage("Connect Groq to use workbook-wide agent actions. Basic formula requests are available locally.","error");$("aiContextStatus").textContent="Groq not connected"}
     return;
   }
   aiMessage(prompt,"user");aiProgress("Thinking through your workbook...");$("aiContextStatus").textContent="Working";
-  const system=`You are Excel Web AI, an action-oriented spreadsheet agent. Understand natural language requests, calculate when useful, and edit the workbook through actions. Return ONLY valid JSON (no markdown): {"message":"short description of what you did or will do","action":{"name":"actionName","args":{}}} or {"message":"...","action":{"actions":[...]}} or action:null. Never invent existing cell values. For requests to create a table, use createTable with start and a 2D values array. For bulk pasted data use setRange. For formulas, always use setFormula(address,formula) for one formula or fillFormula(start,end,formula) for a repeated relative formula; formulas must start with =. Use cell references and ranges such as =SUM(B2:D2). Supported functions include SUM, AVERAGE, MIN, MAX, COUNT, COUNTA, PRODUCT, ABS, ROUND, SQRT, POWER, MOD, AND, OR, NOT, IF, CONCAT, CONCATENATE, LEFT, RIGHT, LEN, UPPER, LOWER, TRIM, RAND, and RANDBETWEEN. Use calculate() after a group of formula edits when useful. Available actions: selectCell(address), setCell(address,value), setFormula(address,formula), fillFormula(start,end,formula), setRange(start,values), createTable(start,values), format(address,property,value), clear(kind), find(replace), sort(reverse), autoSum(), calculate(), insertRow(), insertColumn(), addSheet(name), zoom(value), showFormulas(enabled), setColumnWidth(value), setRowHeight(value). Use format properties bold, italic, underline, color, fill, align, wrap, format. You may return multiple actions. Workbook context: ${JSON.stringify(workbookContext())}`;
-  aiHistory.push({role:"user",parts:[{text:prompt}]});
+  const system=`You are Excel Flow's workbook agent. You must perform the user's spreadsheet request by returning an executable action, not just advice. Return ONLY one valid JSON object with no markdown: {"message":"short result","action":{"name":"setCell","args":{"address":"A1","value":"Example"}}}. For multiple edits use {"message":"short result","action":{"actions":[{"name":"setCell","args":{"address":"A1","value":"Example"}},{"name":"setFormula","args":{"address":"B1","formula":"=SUM(A1:A5)"}}]}}. If the request is conversational and needs no workbook change, use action:null. Never claim an edit was made unless you return the action that makes it. Never invent existing cell values. For requests to create a table, use createTable with start and a 2D values array. For bulk pasted data use setRange. For formulas, always use setFormula(address,formula) for one formula or fillFormula(start,end,formula) for a repeated relative formula; formulas must start with =. Use cell references and ranges such as =SUM(B2:D2). Supported functions include SUM, AVERAGE, MIN, MAX, COUNT, COUNTA, PRODUCT, ABS, ROUND, SQRT, POWER, MOD, AND, OR, NOT, IF, CONCAT, CONCATENATE, LEFT, RIGHT, LEN, UPPER, LOWER, TRIM, RAND, and RANDBETWEEN. Use calculate() after a group of formula edits when useful. Available actions: selectCell(address), setCell(address,value), setFormula(address,formula), fillFormula(start,end,formula), setRange(start,values), createTable(start,values), format(address,property,value), clear(kind), find(replace), sort(reverse), autoSum(), calculate(), insertRow(), insertColumn(), addSheet(name), zoom(value), showFormulas(enabled), setColumnWidth(value), setRowHeight(value). Use format properties bold, italic, underline, color, fill, align, wrap, format. Workbook context: ${JSON.stringify(workbookContext())}`;
+  aiHistory.push({role:"user",content:prompt});
   try{
     let response,data,lastError;
-    for(const model of GEMINI_MODELS){
+    for(const model of GROQ_MODELS){
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
       try{
-        response=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":geminiApiKey},body:JSON.stringify({system_instruction:{parts:[{text:system}]},contents:aiHistory}),signal:controller.signal});
-        const body=await response.text();try{data=JSON.parse(body)}catch{data={error:{message:body||"Gemini returned an unreadable response"}}}
+        response=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${groqApiKey}`},body:JSON.stringify({model,messages:[{role:"system",content:system},...aiHistory],temperature:.2,response_format:{type:"json_object"}}),signal:controller.signal});
+        const body=await response.text();try{data=JSON.parse(body)}catch{data={error:{message:body||"Groq returned an unreadable response"}}}
         if(response.ok)break;
         lastError=new Error(`${model}: ${data.error?.message||`HTTP ${response.status}`}`);
       }catch(err){lastError=err.name==="AbortError"?new Error(`${model}: request timed out after 30 seconds`):err}
       finally{clearTimeout(timer)}
     }
-    if(!response?.ok)throw lastError||new Error("Gemini request failed");
-    const text=data.candidates?.[0]?.content?.parts?.map(p=>p.text||"").join("")||"";
-    if(!text.trim())throw new Error("Gemini returned an empty response.");
-    aiHistory.push({role:"model",parts:[{text}]});
+    if(!response?.ok)throw lastError||new Error("Groq request failed");
+    const text=data.choices?.[0]?.message?.content||"";
+    if(!text.trim())throw new Error("Groq returned an empty response.");
+    aiHistory.push({role:"assistant",content:text});
     const parsed=parseAiReply(text),fallback=localRequestFallback(prompt),chosen=parsed?.action?parsed:fallback;
     if(chosen?.action){aiProgress("Applying workbook changes...");aiAction(chosen.action);aiMessage(chosen.message||"Workbook updated.");$("aiContextStatus").textContent="Workbook updated"}
     else if(parsed?.message){aiMessage(`${parsed.message}\n\nNo workbook change was executed. Please specify a cell or range and the exact operation.`,"error");$("aiContextStatus").textContent="No change made"}
@@ -194,12 +194,15 @@ async function askGemini(prompt){
 function setupAi(){
   $("aiBtn").onclick=()=>{$("aiPanel").hidden=false;$("aiInput").focus()};
   $("aiClose").onclick=()=>{$("aiPanel").hidden=true};
-  $("aiSettings").onclick=()=>{$("aiSetup").hidden=false;$("aiChat").hidden=true;$("geminiKey").focus()};
+  $("aiSettings").onclick=()=>{$("aiSetup").hidden=false;$("aiChat").hidden=true;$("groqKey").value="";$("groqKey").placeholder=groqApiKey?"Saved key — enter a new key to replace it":"Paste a Groq API key to connect";$("aiConnect").textContent=groqApiKey?"Replace Groq key":"Connect Groq";$("groqKey").focus()};
   $("aiSettingsClose").onclick=()=>{$("aiSetup").hidden=true;$("aiChat").hidden=false;$("aiInput").focus()};
   $("aiMinimize").onclick=()=>{$("aiPanel").classList.toggle("ai-minimized");$("aiChat").hidden=!$("aiChat").hidden;$("aiSetup").hidden=true};
-  $("aiConnect").onclick=e=>{e.preventDefault();const key=$("geminiKey").value.replace(/\s+/g,"");if(!key)return aiMessage("Paste your Gemini API key first.","error");geminiApiKey=key;$("aiConnectionLabel").textContent="Connecting...";$("aiContextStatus").textContent="Key saved for this session";$("aiConnect").disabled=true;setTimeout(()=>{$("aiConnect").disabled=false;$("aiSetup").hidden=true;$("aiChat").hidden=false;$("aiConnectionLabel").textContent="Gemini connected";$("aiContextStatus").textContent="Ready to send requests";$("aiDisconnect").hidden=false;$("aiInput").focus()},150)};
-  $("aiDisconnect").onclick=()=>{geminiApiKey="";aiHistory.length=0;$("aiConnectionLabel").textContent="Not connected";$("aiContextStatus").textContent="Gemini not connected";$("aiDisconnect").hidden=true};
-  $("aiForm").onsubmit=e=>{e.preventDefault();const input=$("aiInput"),text=input.value.trim();if(!text)return;input.value="";askGemini(text)};
+  $("groqKey").oncopy=e=>e.preventDefault();
+  $("groqKey").oncut=e=>e.preventDefault();
+  $("aiConnect").onclick=e=>{e.preventDefault();const key=$("groqKey").value.replace(/\s+/g,"");if(!key)return aiMessage("Enter a new Groq API key to replace the saved key.","error");groqApiKey=key;sessionStorage.setItem("excel-groq-api-key",key);$("groqKey").value="";$("aiConnectionLabel").textContent="Connecting...";$("aiContextStatus").textContent="Key saved for this tab";$("aiConnect").disabled=true;setTimeout(()=>{$("aiConnect").disabled=false;$("aiSetup").hidden=true;$("aiChat").hidden=false;$("aiConnectionLabel").textContent="Groq connected";$("aiContextStatus").textContent="Ready to send requests";$("aiDisconnect").hidden=false;$("aiInput").focus()},150)};
+  $("aiDisconnect").onclick=()=>{groqApiKey="";sessionStorage.removeItem("excel-groq-api-key");aiHistory.length=0;$("aiConnectionLabel").textContent="Not connected";$("aiContextStatus").textContent="Groq not connected";$("aiDisconnect").hidden=true};
+  if(groqApiKey){$("aiConnectionLabel").textContent="Groq connected";$("aiContextStatus").textContent="Ready to send requests";$("aiDisconnect").hidden=false}
+  $("aiForm").onsubmit=e=>{e.preventDefault();const input=$("aiInput"),text=input.value.trim();if(!text)return;input.value="";askGroq(text)};
   let drag=null;
   $("aiDragHandle").onpointerdown=e=>{if(e.target.closest("button"))return;const rect=$("aiPanel").getBoundingClientRect();drag={x:e.clientX,y:e.clientY,left:rect.left,top:rect.top};$("aiDragHandle").setPointerCapture(e.pointerId)};
   $("aiDragHandle").onpointermove=e=>{if(!drag)return;$("aiPanel").style.left=Math.max(0,drag.left+e.clientX-drag.x)+"px";$("aiPanel").style.top=Math.max(42,drag.top+e.clientY-drag.y)+"px";$("aiPanel").style.right="auto"};
