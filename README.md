@@ -21,3 +21,6 @@ The app includes a descriptive page title, search/social metadata, `SoftwareAppl
 4. Add a sitemap in Search Console if the site grows beyond this single page.
 
 Search rankings and AI Overview inclusion are determined by Google and cannot be guaranteed by metadata alone.
+
+Author
+Taraksh Choudhary
