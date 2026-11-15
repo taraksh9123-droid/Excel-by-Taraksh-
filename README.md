@@ -4,10 +4,8 @@ Excel Flow is a browser-based spreadsheet with formulas, charts, formatting tool
 
 ## Groq AI setup
 
-1. Open `index.html` in a browser.
-2. Select **AI**, open **Groq settings**, and paste a Groq API key.
-3. The key is masked, cannot be copied from the key field, and is stored only in `sessionStorage` for the current browser tab.
-4. Open Groq settings again to replace the saved key, or use **Disconnect** to remove it.
+1. Open `index.html` and set `window.GROQ_API_KEY` near the bottom of the file.
+2. Select **AI** in the browser and reload the page after changing the key.
 
 The app calls Groq's OpenAI-compatible chat completions endpoint with `llama-3.3-70b-versatile` and `openai/gpt-oss-120b` fallback support. Never commit an API key to this repository.
 

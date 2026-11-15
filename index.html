@@ -97,9 +97,10 @@
   <aside class="ai-panel" id="aiPanel" hidden aria-label="Excel Flow AI">
     <div class="ai-panel-header" id="aiDragHandle"><div><strong>Excel Flow AI</strong><small id="aiConnectionLabel" hidden></small></div><div class="ai-panel-actions"><button id="aiSettings" title="Groq settings">⚙</button><button id="aiMinimize" title="Minimize">−</button><button id="aiClose" title="Close">×</button></div></div>
     <div class="ai-chat" id="aiChat"><div class="ai-progress" id="aiProgress" hidden><span class="ai-spinner" aria-hidden="true"></span><span id="aiProgressText">Thinking...</span></div><div class="ai-messages" id="aiMessages"><div class="ai-message assistant">Hi! I can help you analyze and edit this workbook.</div></div><form class="ai-compose" id="aiForm"><textarea id="aiInput" rows="2" placeholder="Ask Excel Flow AI..." aria-label="Message"></textarea><button type="submit" title="Send message">➤</button></form><div class="ai-context"><span id="aiContextStatus"></span><button id="aiDisconnect" hidden>Disconnect</button></div></div>
-    <div class="ai-setup" id="aiSetup" hidden><div class="ai-settings-title"><strong>Groq settings</strong><button id="aiSettingsClose" type="button" title="Close settings">×</button></div><p>Your key is masked, cannot be copied from this field, and is saved only for this browser tab. Enter a new key below to replace it.</p><input id="groqKey" type="password" placeholder="Paste a Groq API key to connect" autocomplete="off" spellcheck="false"><button id="aiConnect" type="button">Connect Groq</button><a href="https://console.groq.com/keys" target="_blank" rel="noopener">Get a Groq API key</a></div>
+    <div class="ai-setup" id="aiSetup" hidden><div class="ai-settings-title"><strong>Groq settings</strong><button id="aiSettingsClose" type="button" title="Close settings">×</button></div><p>Set your Groq API key in the <code>window.GROQ_API_KEY</code> configuration below, then reload this page.</p><a href="https://console.groq.com/keys" target="_blank" rel="noopener">Get a Groq API key</a></div>
   </aside>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script>window.GROQ_API_KEY = "";</script>
   <script src="app.js"></script>
 </body>
 </html>

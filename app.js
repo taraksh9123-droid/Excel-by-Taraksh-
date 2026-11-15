@@ -93,7 +93,7 @@ function buildRibbon(tab){
 }
 buildRibbon("Home");render();
 
-let groqApiKey=sessionStorage.getItem("excel-groq-api-key")||"";
+let groqApiKey=window.GROQ_API_KEY||sessionStorage.getItem("excel-groq-api-key")||"";
 const GROQ_MODELS=["llama-3.3-70b-versatile","openai/gpt-oss-120b"];
 const aiHistory=[];
 function workbookContext(){
@@ -194,12 +194,9 @@ async function askGroq(prompt){
 function setupAi(){
   $("aiBtn").onclick=()=>{$("aiPanel").hidden=false;$("aiInput").focus()};
   $("aiClose").onclick=()=>{$("aiPanel").hidden=true};
-  $("aiSettings").onclick=()=>{$("aiSetup").hidden=false;$("aiChat").hidden=true;$("groqKey").value="";$("groqKey").placeholder=groqApiKey?"Saved key — enter a new key to replace it":"Paste a Groq API key to connect";$("aiConnect").textContent=groqApiKey?"Replace Groq key":"Connect Groq";$("groqKey").focus()};
+  $("aiSettings").onclick=()=>{$("aiSetup").hidden=false;$("aiChat").hidden=true};
   $("aiSettingsClose").onclick=()=>{$("aiSetup").hidden=true;$("aiChat").hidden=false;$("aiInput").focus()};
   $("aiMinimize").onclick=()=>{$("aiPanel").classList.toggle("ai-minimized");$("aiChat").hidden=!$("aiChat").hidden;$("aiSetup").hidden=true};
-  $("groqKey").oncopy=e=>e.preventDefault();
-  $("groqKey").oncut=e=>e.preventDefault();
-  $("aiConnect").onclick=e=>{e.preventDefault();const key=$("groqKey").value.replace(/\s+/g,"");if(!key)return aiMessage("Enter a new Groq API key to replace the saved key.","error");groqApiKey=key;sessionStorage.setItem("excel-groq-api-key",key);$("groqKey").value="";$("aiConnectionLabel").textContent="Connecting...";$("aiContextStatus").textContent="Key saved for this tab";$("aiConnect").disabled=true;setTimeout(()=>{$("aiConnect").disabled=false;$("aiSetup").hidden=true;$("aiChat").hidden=false;$("aiConnectionLabel").textContent="Groq connected";$("aiContextStatus").textContent="Ready to send requests";$("aiDisconnect").hidden=false;$("aiInput").focus()},150)};
   $("aiDisconnect").onclick=()=>{groqApiKey="";sessionStorage.removeItem("excel-groq-api-key");aiHistory.length=0;$("aiConnectionLabel").textContent="Not connected";$("aiContextStatus").textContent="Groq not connected";$("aiDisconnect").hidden=true};
   if(groqApiKey){$("aiConnectionLabel").textContent="Groq connected";$("aiContextStatus").textContent="Ready to send requests";$("aiDisconnect").hidden=false}
   $("aiForm").onsubmit=e=>{e.preventDefault();const input=$("aiInput"),text=input.value.trim();if(!text)return;input.value="";askGroq(text)};
