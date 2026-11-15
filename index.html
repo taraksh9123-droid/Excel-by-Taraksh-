@@ -95,9 +95,8 @@
   </aside>
   <div class="color-palette" id="colorPalette" hidden><strong id="paletteTitle">Choose color</strong><div id="paletteSwatches"></div><button id="customColorButton" type="button">Custom color</button></div>
   <aside class="ai-panel" id="aiPanel" hidden aria-label="Excel Flow AI">
-    <div class="ai-panel-header" id="aiDragHandle"><div><strong>Excel Flow AI</strong><small id="aiConnectionLabel" hidden></small></div><div class="ai-panel-actions"><button id="aiSettings" title="Groq settings">⚙</button><button id="aiMinimize" title="Minimize">−</button><button id="aiClose" title="Close">×</button></div></div>
+    <div class="ai-panel-header" id="aiDragHandle"><div><strong>Excel Flow AI</strong><small id="aiConnectionLabel" hidden></small></div><div class="ai-panel-actions"><button id="aiClose" title="Close">×</button></div></div>
     <div class="ai-chat" id="aiChat"><div class="ai-progress" id="aiProgress" hidden><span class="ai-spinner" aria-hidden="true"></span><span id="aiProgressText">Thinking...</span></div><div class="ai-messages" id="aiMessages"><div class="ai-message assistant">Hi! I can help you analyze and edit this workbook.</div></div><form class="ai-compose" id="aiForm"><textarea id="aiInput" rows="2" placeholder="Ask Excel Flow AI..." aria-label="Message"></textarea><button type="submit" title="Send message">➤</button></form><div class="ai-context"><span id="aiContextStatus"></span><button id="aiDisconnect" hidden>Disconnect</button></div></div>
-    <div class="ai-setup" id="aiSetup" hidden><div class="ai-settings-title"><strong>Groq settings</strong><button id="aiSettingsClose" type="button" title="Close settings">×</button></div><p>Set your Groq API key in the <code>window.GROQ_API_KEY</code> configuration below, then reload this page.</p><a href="https://console.groq.com/keys" target="_blank" rel="noopener">Get a Groq API key</a></div>
   </aside>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script>window.GROQ_API_KEY = "";</script>

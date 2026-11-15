@@ -194,9 +194,6 @@ async function askGroq(prompt){
 function setupAi(){
   $("aiBtn").onclick=()=>{$("aiPanel").hidden=false;$("aiInput").focus()};
   $("aiClose").onclick=()=>{$("aiPanel").hidden=true};
-  $("aiSettings").onclick=()=>{$("aiSetup").hidden=false;$("aiChat").hidden=true};
-  $("aiSettingsClose").onclick=()=>{$("aiSetup").hidden=true;$("aiChat").hidden=false;$("aiInput").focus()};
-  $("aiMinimize").onclick=()=>{$("aiPanel").classList.toggle("ai-minimized");$("aiChat").hidden=!$("aiChat").hidden;$("aiSetup").hidden=true};
   $("aiDisconnect").onclick=()=>{groqApiKey="";sessionStorage.removeItem("excel-groq-api-key");aiHistory.length=0;$("aiConnectionLabel").textContent="Not connected";$("aiContextStatus").textContent="Groq not connected";$("aiDisconnect").hidden=true};
   if(groqApiKey){$("aiConnectionLabel").textContent="Groq connected";$("aiContextStatus").textContent="Ready to send requests";$("aiDisconnect").hidden=false}
   $("aiForm").onsubmit=e=>{e.preventDefault();const input=$("aiInput"),text=input.value.trim();if(!text)return;input.value="";askGroq(text)};
